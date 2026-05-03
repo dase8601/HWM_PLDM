@@ -20,8 +20,8 @@ class LevelConfig(ConfigBase):
     # Maze specific below
     min_block_radius: int = -1
     max_block_radius: int = sys.maxsize
-    level1: PlannerConfig = PlannerConfig()
-    level2: PlannerConfig = PlannerConfig()
+    level1: PlannerConfig = field(default_factory=PlannerConfig)
+    level2: PlannerConfig = field(default_factory=PlannerConfig)
 
 
 @dataclass
@@ -32,7 +32,7 @@ class MPCConfig(ConfigBase):
     n_envs_batch_size: int = 4
     n_steps: int = 200  # Number of steps to run the env for
     visualize_planning: bool = True
-    level1: PlannerConfig = PlannerConfig()
+    level1: PlannerConfig = field(default_factory=PlannerConfig)
     plot_failure_only: bool = False
     log_pred_dist_every: int = sys.maxsize
     plot_every: int = 16
@@ -50,13 +50,13 @@ class MPCConfig(ConfigBase):
     set_start_target_path: Optional[str] = None
     levels: str = ""  # total levels to run
     level: str = "medium"  # level for this particular mpc eval run
-    easy: LevelConfig = LevelConfig()
-    medium: LevelConfig = LevelConfig()
-    hard: LevelConfig = LevelConfig()
+    easy: LevelConfig = field(default_factory=LevelConfig)
+    medium: LevelConfig = field(default_factory=LevelConfig)
+    hard: LevelConfig = field(default_factory=LevelConfig)
 
     # below used for hierarchy only:
     mock_l1: bool = False
-    level2: PlannerConfig = PlannerConfig()
+    level2: PlannerConfig = field(default_factory=PlannerConfig)
 
 
 class MPCResult(NamedTuple):

@@ -1,5 +1,5 @@
 from typing import NamedTuple, List, Any, Optional, Dict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import itertools
 import os
 
@@ -36,10 +36,10 @@ class ProbeTargetConfig(ConfigBase):
 class ProbingConfig(ConfigBase):
     probe_targets: str = "locations"
     l2_probe_targets: str = "locations"
-    locations: ProbeTargetConfig = ProbeTargetConfig()
-    proprio_pos: ProbeTargetConfig = ProbeTargetConfig()
-    proprio_vel: ProbeTargetConfig = ProbeTargetConfig()
-    l2_locations: ProbeTargetConfig = ProbeTargetConfig()
+    locations: ProbeTargetConfig = field(default_factory=ProbeTargetConfig)
+    proprio_pos: ProbeTargetConfig = field(default_factory=ProbeTargetConfig)
+    proprio_vel: ProbeTargetConfig = field(default_factory=ProbeTargetConfig)
+    l2_locations: ProbeTargetConfig = field(default_factory=ProbeTargetConfig)
     full_finetune: bool = False
     lr: float = 1e-3
     epochs: int = 3

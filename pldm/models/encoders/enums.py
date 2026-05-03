@@ -1,5 +1,5 @@
 from pldm.configs import ConfigBase
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 import torch
 
@@ -38,12 +38,12 @@ class BackboneConfig(ConfigBase):
     # late_loc_encoder_arch: Optional[str] = None
     # late_loc_fuse: bool = False
 
-    early_proprio_cfg: ProprioConfig = ProprioConfig()
-    late_proprio_cfg: ProprioConfig = ProprioConfig()
-    early_location_cfg: ProprioConfig = ProprioConfig()
-    late_location_cfg: ProprioConfig = ProprioConfig()
+    early_proprio_cfg: ProprioConfig = field(default_factory=ProprioConfig)
+    late_proprio_cfg: ProprioConfig = field(default_factory=ProprioConfig)
+    early_location_cfg: ProprioConfig = field(default_factory=ProprioConfig)
+    late_location_cfg: ProprioConfig = field(default_factory=ProprioConfig)
 
-    local_patch_cfg: LocalPatchConfig = LocalPatchConfig()
+    local_patch_cfg: LocalPatchConfig = field(default_factory=LocalPatchConfig)
 
     # local_patch: bool = False
     # local_patch_type: str = "dynamic"

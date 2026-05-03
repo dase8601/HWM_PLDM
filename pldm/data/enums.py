@@ -1,6 +1,6 @@
 from typing import Optional, NamedTuple
 from enum import Enum, auto
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pldm.configs import ConfigBase
 
 from pldm_envs.diverse_maze.enums import D4RLDatasetConfig
@@ -28,7 +28,7 @@ class Datasets(NamedTuple):
 @dataclass
 class DataConfig(ConfigBase):
     dataset_type: DatasetType = DatasetType.Single
-    d4rl_config: D4RLDatasetConfig = D4RLDatasetConfig()
+    d4rl_config: D4RLDatasetConfig = field(default_factory=D4RLDatasetConfig)
 
     normalize: bool = False
     min_max_normalize_state: bool = False

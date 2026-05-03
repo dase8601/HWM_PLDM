@@ -32,18 +32,18 @@ class ObjectiveType(enum.Enum):
 @dataclass
 class ObjectivesConfig:
     objectives: List[ObjectiveType] = field(default_factory=lambda: [])
-    vicreg: VICRegObjectiveConfig = VICRegObjectiveConfig()
-    vicreg_obs: VICRegObjectiveConfig = VICRegObjectiveConfig()
-    vicreg_proprio: VICRegObjectiveConfig = VICRegObjectiveConfig()
-    vicreg_location: VICRegObjectiveConfig = VICRegObjectiveConfig()
-    idm: IDMObjectiveConfig = IDMObjectiveConfig()
-    kl: KLObjectiveConfig = KLObjectiveConfig()
-    prediction: PredictionObjectiveConfig = PredictionObjectiveConfig()
-    prediction_obs: PredictionObjectiveConfig = PredictionObjectiveConfig()
-    prediction_proprio: PredictionObjectiveConfig = PredictionObjectiveConfig()
-    prediction_raw_location: PredictionObjectiveConfig = PredictionObjectiveConfig()
-    probe: ProbeObjectiveConfig = ProbeObjectiveConfig()
-    sigreg: SIGRegObjectiveConfig = SIGRegObjectiveConfig()
+    vicreg: VICRegObjectiveConfig = field(default_factory=VICRegObjectiveConfig)
+    vicreg_obs: VICRegObjectiveConfig = field(default_factory=VICRegObjectiveConfig)
+    vicreg_proprio: VICRegObjectiveConfig = field(default_factory=VICRegObjectiveConfig)
+    vicreg_location: VICRegObjectiveConfig = field(default_factory=VICRegObjectiveConfig)
+    idm: IDMObjectiveConfig = field(default_factory=IDMObjectiveConfig)
+    kl: KLObjectiveConfig = field(default_factory=KLObjectiveConfig)
+    prediction: PredictionObjectiveConfig = field(default_factory=PredictionObjectiveConfig)
+    prediction_obs: PredictionObjectiveConfig = field(default_factory=PredictionObjectiveConfig)
+    prediction_proprio: PredictionObjectiveConfig = field(default_factory=PredictionObjectiveConfig)
+    prediction_raw_location: PredictionObjectiveConfig = field(default_factory=PredictionObjectiveConfig)
+    probe: ProbeObjectiveConfig = field(default_factory=ProbeObjectiveConfig)
+    sigreg: SIGRegObjectiveConfig = field(default_factory=SIGRegObjectiveConfig)
 
     def build_objectives_list(
         self,

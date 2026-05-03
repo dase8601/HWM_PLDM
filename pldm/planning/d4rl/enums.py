@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import NamedTuple
 import torch
 from pldm.planning.enums import MPCConfig
@@ -21,7 +21,7 @@ class HierarchicalD4RLMPCConfig(D4RLMPCConfig):
     final_trans_steps: int = 15
     error_threshold: float = 1.0
     mock_l1: bool = False
-    level2: PlannerConfig = PlannerConfig()
+    level2: PlannerConfig = field(default_factory=PlannerConfig)
 
 
 class MPCReport(NamedTuple):

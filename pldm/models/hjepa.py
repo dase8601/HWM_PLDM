@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import NamedTuple, Optional
 
 import torch
@@ -10,8 +10,8 @@ from pldm.models.jepa import JEPA, JEPAConfig, ForwardResult as JEPAForwardResul
 
 @dataclass
 class HJEPAConfig(ConfigBase):
-    level1: JEPAConfig = JEPAConfig()
-    level2: JEPAConfig = JEPAConfig()
+    level1: JEPAConfig = field(default_factory=JEPAConfig)
+    level2: JEPAConfig = field(default_factory=JEPAConfig)
     step_skip: int = 4
     disable_l2: bool = False
     freeze_l1: bool = False

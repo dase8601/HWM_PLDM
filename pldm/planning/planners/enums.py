@@ -1,5 +1,5 @@
 import enum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pldm.configs import ConfigBase
 
 
@@ -40,9 +40,9 @@ class LFBGSConfig(ConfigBase):
 @dataclass
 class PlannerConfig(ConfigBase):
     planner_type: PlannerType = PlannerType.SGD
-    sgd: SGDConfig = SGDConfig()
-    mppi: MPPIConfig = MPPIConfig()
-    lfgbs: LFBGSConfig = LFBGSConfig()
+    sgd: SGDConfig = field(default_factory=SGDConfig)
+    mppi: MPPIConfig = field(default_factory=MPPIConfig)
+    lfgbs: LFBGSConfig = field(default_factory=LFBGSConfig)
     clamp_actions: bool = False
     min_step: float = 0.1
     max_step: float = 1.0
