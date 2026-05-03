@@ -7,6 +7,7 @@ from pldm.objectives.idm import IDMObjective, IDMObjectiveConfig  # noqa
 from pldm.objectives.kl import KLObjective, KLObjectiveConfig
 from pldm.objectives.prediction import PredictionObjective, PredictionObjectiveConfig
 from pldm.objectives.probe import ProbeObjective, ProbeObjectiveConfig
+from pldm.objectives.sigreg import SIGRegObjective, SIGRegObjectiveConfig  # noqa
 
 
 class ObjectiveType(enum.Enum):
@@ -25,6 +26,7 @@ class ObjectiveType(enum.Enum):
     PredictionRawLocation = enum.auto()
     ProbeLocation = enum.auto()
     ProbeProprioVel = enum.auto()
+    SIGReg = enum.auto()
 
 
 @dataclass
@@ -41,6 +43,7 @@ class ObjectivesConfig:
     prediction_proprio: PredictionObjectiveConfig = PredictionObjectiveConfig()
     prediction_raw_location: PredictionObjectiveConfig = PredictionObjectiveConfig()
     probe: ProbeObjectiveConfig = ProbeObjectiveConfig()
+    sigreg: SIGRegObjectiveConfig = SIGRegObjectiveConfig()
 
     def build_objectives_list(
         self,
@@ -138,6 +141,12 @@ class ObjectivesConfig:
                         repr_dim=repr_dim,
                         pred_dim=2,
                         probe_target="proprio_vel",
+                    )
+                )
+            elif objective_type == ObjectiveType.SIGReg:
+                objectives.append(
+                    SIGRegObjective(
+                        self.sigreg, repr_dim=repr_dim, name_prefix=name_prefix
                     )
                 )
             else:
