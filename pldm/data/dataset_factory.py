@@ -2,13 +2,11 @@ import dataclasses
 
 from pldm.data.utils import make_dataloader
 
-
-# if "AMD" not in torch.cuda.get_device_name(0):
 from pldm_envs.diverse_maze.d4rl import D4RLDataset
+from pldm_envs.diverse_maze.locomaze import LocoMazeDataset  # <-- FIXED
 
 from pldm.probing.evaluator import ProbingConfig
 from pldm.data.enums import DataConfig, DatasetType, ProbingDatasets, Datasets
-
 
 
 class DatasetFactory:
@@ -38,17 +36,9 @@ class DatasetFactory:
         else:
             raise NotImplementedError
 
+    # 🔴 FIX: DotDataset removed (not in repo)
     def _create_single_datasets(self):
-        ds = DotDataset(self.config.dot_config)
-        val_ds = DotDataset(
-            dataclasses.replace(self.config.dot_config, train=False),
-            normalizer=ds.normalizer,
-        )
-
-        datasets = Datasets(ds=ds, val_ds=val_ds)
-
-        return datasets
-
+        raise NotImplementedError("DotDataset not available in this repo.")
 
     def _create_d4rl_datasets(self):
         ds = D4RLDataset(self.config.d4rl_config, load_l1=self.config.d4rl_config.train_l1)
@@ -110,6 +100,7 @@ class DatasetFactory:
                 normalizer=ds.normalizer,
                 suffix="l2_probe_train",
             )
+
             l2_probe_val_ds = D4RLDataset(
                 dataclasses.replace(
                     self.config.d4rl_config,
@@ -128,6 +119,7 @@ class DatasetFactory:
                 normalizer=ds.normalizer,
                 suffix="l2_probe_val",
             )
+
             datasets = Datasets(
                 ds=ds,
                 val_ds=None,
@@ -140,7 +132,6 @@ class DatasetFactory:
         return datasets
 
     def _create_locomaze_datasets(self):
-        # TODO unify with _create_d4rl_datasets?
         ds = LocoMazeDataset(self.config.d4rl_config)
         ds = make_dataloader(ds=ds, loader_config=self.config)
 
