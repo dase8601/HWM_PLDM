@@ -66,6 +66,12 @@ import random
 from pathlib import Path
 from typing import List, Tuple, Optional
 
+# Set MUJOCO_GL before mujoco is imported — mujoco 3.8+ loads its EGL renderer
+# at import time via PyOpenGL, so the env var must be in place beforehand.
+# If libEGL.so.1 is missing run:  apt-get install -y libegl1
+# Fallback (no system EGL needed): pip install "mujoco==3.1.6" --force-reinstall
+os.environ.setdefault("MUJOCO_GL", "egl")
+
 # ── third-party ───────────────────────────────────────────────────────────────
 import numpy as np
 import torch
@@ -79,9 +85,14 @@ try:
     import gymnasium as gym
     import gymnasium_robotics
     gymnasium_robotics.register_robotics_envs()
-except ImportError as e:
-    print(f"[ERROR] Missing package: {e}")
-    print("  Run:  pip install gymnasium gymnasium-robotics")
+except (ImportError, AttributeError) as e:
+    print(f"\n[ERROR] mujoco/gymnasium import failed: {e}")
+    if "eglQueryString" in str(e) or "NoneType" in str(e):
+        print("\n  Root cause: mujoco 3.8+ requires libEGL.so.1 at import time.")
+        print("  Fix 1 (fastest):  apt-get install -y libegl1")
+        print("  Fix 2 (fallback): pip install 'mujoco==3.1.6' --force-reinstall")
+    else:
+        print("  Run:  pip install gymnasium gymnasium-robotics")
     sys.exit(1)
 
 # ── opencv (resize frames) ────────────────────────────────────────────────────
