@@ -9,19 +9,23 @@ INSTALL (RunPod, fresh pod — RTX 4090):
 
 USAGE:
     # Stage 1: offline data collection  (~5–10 min)
-    MUJOCO_GL=egl python scripts/train_maniskill_hwm.py --collect
+    MUJOCO_GL=osmesa python scripts/train_maniskill_hwm.py --collect
 
     # Stage 2: train world model        (~30–60 min on 4090)
-    MUJOCO_GL=egl python scripts/train_maniskill_hwm.py --train
+    MUJOCO_GL=osmesa python scripts/train_maniskill_hwm.py --train
 
     # Stage 3: CEM planner evaluation   (~10 min)
-    MUJOCO_GL=egl python scripts/train_maniskill_hwm.py --eval
+    MUJOCO_GL=osmesa python scripts/train_maniskill_hwm.py --eval
 
     # All in one:
-    MUJOCO_GL=egl python scripts/train_maniskill_hwm.py --collect --train --eval
+    MUJOCO_GL=osmesa python scripts/train_maniskill_hwm.py --collect --train --eval
 
     # Ablation — no SIGReg:
-    MUJOCO_GL=egl python scripts/train_maniskill_hwm.py --collect --train --eval --no-sigreg
+    MUJOCO_GL=osmesa python scripts/train_maniskill_hwm.py --collect --train --eval --no-sigreg
+
+    # Prereqs (RunPod, do once):
+    #   apt-get update && apt-get install -y libosmesa6
+    #   pip install gymnasium gymnasium-robotics opencv-python-headless numpy tqdm matplotlib
 
 ═══════════════════════════════════════════════════════════════════════════════
 ARCHITECTURE:
@@ -70,7 +74,7 @@ from typing import List, Tuple, Optional
 # at import time via PyOpenGL, so the env var must be in place beforehand.
 # If libEGL.so.1 is missing run:  apt-get install -y libegl1
 # Fallback (no system EGL needed): pip install "mujoco==3.1.6" --force-reinstall
-os.environ.setdefault("MUJOCO_GL", "egl")
+os.environ.setdefault("MUJOCO_GL", "osmesa")  # egl fails on RunPod; osmesa (apt libosmesa6) works
 
 # ── third-party ───────────────────────────────────────────────────────────────
 import numpy as np
